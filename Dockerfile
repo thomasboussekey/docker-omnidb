@@ -1,3 +1,7 @@
+ARG OD_XL=0
+ARG OD_PGLOGICAL=0
+ARG OD_BDR=0
+
 FROM alpine:3.8
 
 MAINTAINER Taivo Käsper <taivo.kasper@gmail.com>
@@ -21,6 +25,8 @@ RUN cd /opt/OmniDB-${OMNIDB_VERSION} \
       && pip3 install cherrypy \
       && echo "Begin install requirements" \
       && pip3 install -r requirements.txt
+COPY install_plugins.sh /opt/
+RUN /opt/install_plugins.sh
 
 RUN apk del .build-deps \
       && find /usr/local -name '*.a' -delete
